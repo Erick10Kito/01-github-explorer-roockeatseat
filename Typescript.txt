@@ -1,0 +1,141 @@
+TypeScript = SuperSet
+SuperSet = Conjunto de funcionalidades que é adicionado em cima de uma linguagem.
+
+=========================================================================================
+
+function showWelcomeMessage(user) {
+    return `Welcome ${user.name}, your e-mail is ${user.email.} Your city is ${user.city} and your state is ${user.state}`;   --- Nessa função eu coloquei o user nela para pegar informaçoes dele, mas não é certeza que que a cidade ou o estado tem esses nomes(city,state)
+}
+
+quando é feito uma alteração no codigo, utilizar de uma variavel ou chamar uma função, não sabemos exatamente qual o formato das informaçoes que estão la dentro
+
+
+TYPESCRIPT = permite adicionar tipagems, adicionar qual é o formato das informações, o nome da variavel das informações
+
+================================================================================================================================================================================================================================================================================
+
+
+
+Exemplo com o TypeScript:
+
+Type User = {
+    name: string
+    email: string
+    address: {                // esse type definiu o nome de cada coisa que tem dentro de user e seus tipos, e definiu que o city e state estão dentro de address. o ponto de interrogação dps do state quer dizer que não é algo obrigatorio
+        city: string
+        state?: string
+    }
+}
+
+
+
+function showWelcomeMessage(user: User) {
+    return `Welcome ${user.name}, your e-mail is ${user.email.} Your city is ${user.address.city} and your state is ${user.address.state}`;   --- Agora como eu declarei no type que city e state estão dentro de address, esta tudo correto
+}
+
+
+
+// coloquei o "User" com U maiusculo na fente do user da função para dar a ordem do user da função seguir o User do type
+
+
+const user = {
+    name: 'ERICK',
+    email: 'sla@gmail.com',
+    address {                      //fiz essa variavel para passar as informçoes que serão exibidas na função
+        city: 'New York',
+        state: 'MG',
+    }
+}
+
+const message = showWelcomeMessage(user)  //puxei a função
+
+
+
+
+
+
+==========================================================================================================================================================================================================================================
+
+Instalei o typeScript com o seginte comando: 
+yarn add typescript -D
+
+inicializei o typescript na minha aplicação:
+yarn tsc --init
+Com esse comando ele ira criar o tsconfig.json, mas eu mudarei algumas dessa informações que estão la dentro, e aqui estão os comandos que serão adicionados, geralmente eles ja estão comentados , então é só tirar a barra deles e adicionar o que tiver que adicionar:
+"lib": ["dom", "dom.iterable", "esnext"],
+"allowJs": true,
+"allowSyntheticDefaultImports": true,
+"moduleResolution": "node",
+"resolveJsonModule": true,
+"isolatedModules":true,
+"noEmit": true,
+"jsx": "react-jsx",
+
+
+
+Depois adiciona o seguinte codigo antes da ultima chaves:
+"include":["src"]
+
+
+
+
+
+Depois de fazer isso eu tive que adicionar uma nova "propriedade" pro babel, para que ele possa entender o typescript da aplicação, para fazer isso basta escrever o seguinte codigo no terminal:
+yarn add @babel/preset-typescript -D
+depois de instalar isso, vamos no arquivo babel.config.js e adicionamos o seguinte codigo:
+ '@babel/preset-typescript',
+
+
+
+ depois disso eu vou no webpack.cnfig e adiciono o seguinte codigo:
+ IMG=JSX-TSX-Webpack
+
+
+
+ Depois de fazer as mudanças no webpack config eu vou trocar o nome do index.jsx para index.tsx e instalar os seguintes codigos no terminal:
+ yarn add @types/react-dom -D
+yarn add @types/react -D
+
+
+
+
+
+=============================================================================================================================================================================
+Agora eu vou transformar os componentes que estão em jsx para tsx:
+App = só trocar de jsx para tsx no nome msm
+
+RepositoryItem = 
+trocar de jsx para tsx no nome
+Depois veremos que deu um erro no props, então faremos uma forma de falar para a propriedade , oque esperamos receber dentro do props, e faremos isso da seguinte forma:
+//Lembrando que interface é praticamente a mesma coisa que o Type
+interface RepositoryItemProps {
+    repository: {
+        nome: string;
+        description: string;
+        html_url: string;
+
+    }
+}
+
+//informação adicional: Espero receber dentro do props uma propriedade respository,por isso "repository:..." e espero receber de dentro dela as informaçoes que foram listadas dentro das chaves do "repository", coloquei string pois é o tipo da variavel que eu to recebendo
+//Vale lembrar que eu só listei oque eu utilizei na aplicação , caso eu fosse utilizar algo a mais eu teria que listar
+
+depois adiciono na função a interface que eu fiz acima para mostrar que o formato do props vai ser no formato da interface: 
+export function RepositoryItem(props: RepositoryItemProps)
+
+
+
+RepositoryList =
+trocar de jsx para tsx no nome
+Quando for trocado o nome, vai ser mostrado um erro, e isso ocoree pois o estado nao tem tipagem, e geralmente quando tem um array vazio é essencial ter uma tipagem, para concertar então eu coloquei uma interface assim:
+
+interface Repository {
+    name: string;
+    description: string;
+    html_url: string;
+}
+
+e depois coloquei a seguinte mudança na variavel:
+const [repositories, setRepositories] = useState<Repository[]>([]);
+Explicação: coloquei o sinal de maior e menor pois é dentro desses sinais que eu vou definir o tipo do estado, coloquei colchetes depois do Repository(nome dado para a interface) para falar que
+é uma lista, se nao tivesse colocado ele terie entendido que seria soemente um repositorio
