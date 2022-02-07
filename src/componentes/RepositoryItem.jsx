@@ -2,11 +2,11 @@ export function RepositoryItem(props) {
 
     return (
         <li>
-            <strong>{props.repository?.name ?? 'Default'}</strong>
-            <p>{props.repository?.description ?? 'Oi eu sou Goku'}</p>
+            <strong>{props.repository.name }</strong>
+            <p>{props.repository.description }</p>
 
 
-            <a href={props.repository?.link ?? 'https://www.youtube.com/watch?v=mWa4JDzPHsM&list=PL51L1NeBqyMDMwbFGqClrPWLot6kVZMHR&index=81'} target='_blank'>
+            <a href={props.repository.html_url} target='_blank'>
                 Acessar Repositorio
             </a>
         </li>
